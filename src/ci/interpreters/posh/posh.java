@@ -7,7 +7,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Scanner;
 
 public class posh {
     static boolean hadError = false;
@@ -49,9 +48,9 @@ public class posh {
 
     private static void run(String source) {
         Scanner scanner = new Scanner(source);
-        List<Token> tokens = scanner.scanTokens();
+        List<token> tokens = scanner.scanTokens();
 
-        for (Token token : tokens) {
+        for (token token : tokens) {
             System.out.println(token);
         }
     }
