@@ -36,7 +36,8 @@ public class posh {
         BufferedReader reader = new BufferedReader(input);
 
         for (;;) {
-            System.out.println(System.getProperty("os.name") + "@" + System.getProperty("user.name") + "> ");
+            System.out.println(
+                    System.getProperty("os.name").toLowerCase() + "@" + System.getProperty("user.name") + "> ");
             String line = reader.readLine();
             if (line == null) {
                 break;
