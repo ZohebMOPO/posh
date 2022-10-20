@@ -13,19 +13,19 @@ public class GenAst {
         }
         String outputDir = args[0];
         defineAst(outputDir, "Expr", Arrays.asList(
-                "Binary: Expr Left, Token operator, Expr right",
+                "Binary: Expr Left, token operator, Expr right",
                 "Grouping: Expr expression",
                 "Literal: Object value",
-                "Unary: Token operator, Expr right"));
+                "Unary: token operator, Expr right"));
     }
 
     public static void defineAst(String outputDir, String basename, List<String> types) throws IOException {
         String path = outputDir + "/" + basename + ".java";
         PrintWriter writer = new PrintWriter(path, "UTF-8");
 
-        writer.println("package ci.intepreters.posh");
+        writer.println("package ci.interpreters.posh");
         writer.println();
-        writer.println("import java.util.List");
+        writer.println("import java.util.List;");
         writer.println();
         writer.print("abstract class " + basename + " {");
         defineVisitor(writer, basename, types);
