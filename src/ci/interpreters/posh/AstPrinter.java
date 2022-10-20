@@ -1,10 +1,15 @@
 package ci.interpreters.posh;
 
-import java.beans.Expression;
+import ci.interpreters.posh.Expr.Assign;
+import ci.interpreters.posh.Expr.Call;
+import ci.interpreters.posh.Expr.Get;
+import ci.interpreters.posh.Expr.Logical;
+import ci.interpreters.posh.Expr.Set;
+import ci.interpreters.posh.Expr.Super;
+import ci.interpreters.posh.Expr.This;
+import ci.interpreters.posh.Expr.Variable;
 
-public class AstPrinter
-implement Expr.Visitor<String>
-{
+class AstPrinter implements Expr.Visitor<String> {
 
     String print(Expr expr) {
         return expr.accept(this);
@@ -48,13 +53,60 @@ implement Expr.Visitor<String>
     public static void main(String[] args) {
         Expr expression = new Expr.Binary(
                 new Expr.Unary(
-                        new Token(TokenType.MINUS, "-", null, 1),
+                        new token(TokenType.MINUS, "-", null, 1),
                         new Expr.Literal(123)),
-                new Token(TokenType.STAR, "*", null, 1),
+                new token(TokenType.STAR, "*", null, 1),
                 new Expr.Grouping(
                         new Expr.Literal(45.67)));
 
         System.out.println(new AstPrinter().print(expression));
     }
 
+    @Override
+    public String visitAssignExpr(Assign expr) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String visitCallExpr(Call expr) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String visitGetExpr(Get expr) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String visitLogicalExpr(Logical expr) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String visitSetExpr(Set expr) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String visitSuperExpr(Super expr) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String visitThisExpr(This expr) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String visitVariableExpr(Variable expr) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
