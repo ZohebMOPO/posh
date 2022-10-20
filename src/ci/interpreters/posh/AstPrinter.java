@@ -1,14 +1,5 @@
 package ci.interpreters.posh;
 
-import ci.interpreters.posh.Expr.Assign;
-import ci.interpreters.posh.Expr.Call;
-import ci.interpreters.posh.Expr.Get;
-import ci.interpreters.posh.Expr.Logical;
-import ci.interpreters.posh.Expr.Set;
-import ci.interpreters.posh.Expr.Super;
-import ci.interpreters.posh.Expr.This;
-import ci.interpreters.posh.Expr.Variable;
-
 class AstPrinter implements Expr.Visitor<String> {
 
     String print(Expr expr) {
@@ -60,53 +51,5 @@ class AstPrinter implements Expr.Visitor<String> {
                         new Expr.Literal(45.67)));
 
         System.out.println(new AstPrinter().print(expression));
-    }
-
-    @Override
-    public String visitAssignExpr(Assign expr) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String visitCallExpr(Call expr) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String visitGetExpr(Get expr) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String visitLogicalExpr(Logical expr) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String visitSetExpr(Set expr) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String visitSuperExpr(Super expr) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String visitThisExpr(This expr) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String visitVariableExpr(Variable expr) {
-        // TODO Auto-generated method stub
-        return null;
     }
 }
