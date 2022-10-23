@@ -1,5 +1,6 @@
 package ci.interpreters.posh;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ci.interpreters.posh.TokenType.*;
@@ -16,16 +17,36 @@ public class Parser {
         this.tokenss = tokenss;
     }
 
-    Expr parse() {
-        try {
-            return expression();
-        } catch (ParseError error) {
-            return null;
+    List<Stmt> parse() {
+        List<Stmt> statements = new ArrayList<>();
+        while (!isAtEnd()) {
+            statements.add(statement());
         }
+
+        return statements;
     }
 
     private Expr expression() {
         return equality();
+    }
+
+    private Stmt statement() {
+        if (match(PRINT))
+            return printstatement();
+
+        return expressionStatement();
+    }
+
+    private Stmt printstatement() {
+        Expr value = expression();
+        consume(SEMICOLON, "Expect ';' after value");
+        return new Stmt.Print(value);
+    }
+
+    private Stmt expressionStatement() {
+        Expr expr = expression();
+        consume(SEMICOLON, "Expect ';' after expression");
+        return new Stmt.Expression(expr);
     }
 
     private Expr equality() {

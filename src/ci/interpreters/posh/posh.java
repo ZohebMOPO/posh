@@ -42,7 +42,7 @@ public class posh {
 
         for (;;) {
             System.out.println(
-                    System.getProperty("os.name").toLowerCase() + "@" + System.getProperty("user.name") + "> ");
+                    System.getProperty("os.name").toLowerCase() + "@" + System.getProperty("user.name") + ">");
             String line = reader.readLine();
             if (line == null) {
                 break;
@@ -57,13 +57,11 @@ public class posh {
         List<token> tokens = scanner.scanTokens();
 
         Parser parser = new Parser(tokens);
-        Expr expression = parser.parse();
+        List<Stmt> statements = parser.parse();
         if (hadError)
             return;
 
-        interpreter.interpret(expression);
-
-        System.out.println(new AstPrinter().print(expression));
+        interpreter.interpret(statements);
     }
 
     static void error(int line, String message) {
