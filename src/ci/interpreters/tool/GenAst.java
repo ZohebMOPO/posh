@@ -16,17 +16,19 @@ public class GenAst {
                 "Binary: Expr Left, token operator, Expr right",
                 "Grouping: Expr expression",
                 "Literal: Object value",
-                "Unary: token operator, Expr right"));
+                "Unary: token operator, Expr right",
+                "Variable: token name"));
         defineAst(outputDir, "Stmt", Arrays.asList(
                 "Expression: Expr expression",
-                "Print: Expr expression"));
+                "Print: Expr expression",
+                "Var: token name, Expr initializer"));
     }
 
     public static void defineAst(String outputDir, String basename, List<String> types) throws IOException {
         String path = outputDir + "/" + basename + ".java";
         PrintWriter writer = new PrintWriter(path, "UTF-8");
 
-        writer.println("package ci.interpreters.posh");
+        writer.println("package ci.interpreters.posh;");
         writer.println();
         writer.println("import java.util.List;");
         writer.println();

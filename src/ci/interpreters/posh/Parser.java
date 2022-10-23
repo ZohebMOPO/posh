@@ -20,7 +20,7 @@ public class Parser {
     List<Stmt> parse() {
         List<Stmt> statements = new ArrayList<>();
         while (!isAtEnd()) {
-            statements.add(statement());
+            statements.add(declaration());
         }
 
         return statements;
@@ -28,6 +28,16 @@ public class Parser {
 
     private Expr expression() {
         return equality();
+    }
+
+    private Stmt declaration() {
+        try {
+            if (match(VAR))
+                return varDeclaration();
+            return statement();
+        } catch (ParseError e) {
+            return null;
+        }
     }
 
     private Stmt statement() {
@@ -41,6 +51,15 @@ public class Parser {
         Expr value = expression();
         consume(SEMICOLON, "Expect ';' after value");
         return new Stmt.Print(value);
+    }
+
+    private Stmt varDeclaration() {
+        token name = consume(IDENTIFIER, "Expect a variable name");
+        Expr intializer = null;
+        if (match(EQUAL)) {
+            intializer = expression();
+        }
+        return new Stmt.Var(name, intializer);
     }
 
     private Stmt expressionStatement() {
@@ -88,7 +107,7 @@ public class Parser {
     private Expr factor() {
         Expr expr = unary();
 
-        while (match(SLASH, STAR)) {
+        while (match(SLASH, STAR, MOD)) {
             token operator = previous();
             Expr right = unary();
             expr = new Expr.Binary(expr, operator, right);
@@ -114,11 +133,12 @@ public class Parser {
             return new Expr.Literal(true);
         if (match(NIL))
             return new Expr.Literal(null);
-
         if (match(NUMBER, STRING)) {
             return new Expr.Literal(previous().literal);
         }
-
+        if (match(IDENTIFIER)) {
+            return new Expr.Variable(previous());
+        }
         if (match(LEFT_PAREN)) {
             Expr expr = expression();
             consume(RIGHT_PAREN, "Expect ')' after expression.");
