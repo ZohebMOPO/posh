@@ -13,12 +13,14 @@ public class GenAst {
         }
         String outputDir = args[0];
         defineAst(outputDir, "Expr", Arrays.asList(
+                "Assign: token name, Expr value",
                 "Binary: Expr Left, token operator, Expr right",
                 "Grouping: Expr expression",
                 "Literal: Object value",
                 "Unary: token operator, Expr right",
                 "Variable: token name"));
         defineAst(outputDir, "Stmt", Arrays.asList(
+                "Block: List<Stmt> statements",
                 "Expression: Expr expression",
                 "Print: Expr expression",
                 "Var: token name, Expr initializer"));

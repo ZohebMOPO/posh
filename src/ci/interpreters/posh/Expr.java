@@ -2,24 +2,31 @@ package ci.interpreters.posh;
 
 import java.util.List;
 
-abstract class Expr {
-  interface Visitor<R> {
+abstract class Expr {  interface Visitor<R> {
+    R visitAssignExpr(Assign expr);
     R visitBinaryExpr(Binary expr);
-
     R visitGroupingExpr(Grouping expr);
-
     R visitLiteralExpr(Literal expr);
-
     R visitUnaryExpr(Unary expr);
-
     R visitVariableExpr(Variable expr);
   }
 
   abstract <R> R accept(Visitor<R> visitor);
+  static class Assign extends Expr {
+    Assign(token name, Expr value) {      this.name = name;
+      this.value = value;
+    }
 
+    @Override
+    <R> R accept(Visitor<R> visitor) {
+      return visitor.visitAssignExpr(this);
+    }
+
+    final token name;
+    final Expr value;
+  }
   static class Binary extends Expr {
-    Binary(Expr Left, token operator, Expr right) {
-      this.Left = Left;
+    Binary(Expr Left, token operator, Expr right) {      this.Left = Left;
       this.operator = operator;
       this.right = right;
     }
@@ -33,10 +40,8 @@ abstract class Expr {
     final token operator;
     final Expr right;
   }
-
   static class Grouping extends Expr {
-    Grouping(Expr expression) {
-      this.expression = expression;
+    Grouping(Expr expression) {      this.expression = expression;
     }
 
     @Override
@@ -46,10 +51,8 @@ abstract class Expr {
 
     final Expr expression;
   }
-
   static class Literal extends Expr {
-    Literal(Object value) {
-      this.value = value;
+    Literal(Object value) {      this.value = value;
     }
 
     @Override
@@ -59,10 +62,8 @@ abstract class Expr {
 
     final Object value;
   }
-
   static class Unary extends Expr {
-    Unary(token operator, Expr right) {
-      this.operator = operator;
+    Unary(token operator, Expr right) {      this.operator = operator;
       this.right = right;
     }
 
@@ -74,10 +75,8 @@ abstract class Expr {
     final token operator;
     final Expr right;
   }
-
   static class Variable extends Expr {
-    Variable(token name) {
-      this.name = name;
+    Variable(token name) {      this.name = name;
     }
 
     @Override
