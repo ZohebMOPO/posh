@@ -42,8 +42,28 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
     }
 
     @Override
+    public String visitWhileStmt(Stmt.While stmt) {
+        return parenthesize2("while", stmt.condition, stmt.body);
+    }
+
+    @Override
+    public String visitIfStmt(Stmt.If stmt) {
+        if (stmt.elseBranch == null) {
+            return parenthesize2("if", stmt.condition, stmt.thenBranch);
+        }
+
+        return parenthesize2("if-else", stmt.condition, stmt.thenBranch,
+                stmt.elseBranch);
+    }
+
+    @Override
     public String visitAssignExpr(Expr.Assign expr) {
         return parenthesize2("=", expr.name.lexeme, expr.value);
+    }
+
+    @Override
+    public String visitLogicalExpr(Expr.Logical expr) {
+        return parenthesize(expr.operator.lexeme, expr.left, expr.right);
     }
 
     @Override

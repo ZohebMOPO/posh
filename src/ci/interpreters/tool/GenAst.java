@@ -17,13 +17,16 @@ public class GenAst {
                 "Binary: Expr Left, token operator, Expr right",
                 "Grouping: Expr expression",
                 "Literal: Object value",
+                "Logical  : Expr left, token operator, Expr right",
                 "Unary: token operator, Expr right",
                 "Variable: token name"));
         defineAst(outputDir, "Stmt", Arrays.asList(
                 "Block: List<Stmt> statements",
                 "Expression: Expr expression",
+                "If: Expr condition, Stmt thenBranch," + " Stmt elseBranch",
                 "Print: Expr expression",
-                "Var: token name, Expr initializer"));
+                "Var: token name, Expr initializer",
+                "While: Expr condition, Stmt body"));
     }
 
     public static void defineAst(String outputDir, String basename, List<String> types) throws IOException {
