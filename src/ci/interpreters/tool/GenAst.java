@@ -15,6 +15,7 @@ public class GenAst {
         defineAst(outputDir, "Expr", Arrays.asList(
                 "Assign: token name, Expr value",
                 "Binary: Expr Left, token operator, Expr right",
+                "Call: Expr callee, Token paren, List<Expr> arguments",
                 "Grouping: Expr expression",
                 "Literal: Object value",
                 "Logical  : Expr left, token operator, Expr right",
