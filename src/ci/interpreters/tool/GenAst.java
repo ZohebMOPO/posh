@@ -15,7 +15,7 @@ public class GenAst {
         defineAst(outputDir, "Expr", Arrays.asList(
                 "Assign: token name, Expr value",
                 "Binary: Expr Left, token operator, Expr right",
-                "Call: Expr callee, Token paren, List<Expr> arguments",
+                "Call: Expr callee, token paren, List<Expr> arguments",
                 "Grouping: Expr expression",
                 "Literal: Object value",
                 "Logical  : Expr left, token operator, Expr right",
@@ -24,6 +24,9 @@ public class GenAst {
         defineAst(outputDir, "Stmt", Arrays.asList(
                 "Block: List<Stmt> statements",
                 "Expression: Expr expression",
+                "Function: token name, List<token> params," +
+                        " List<Stmt> body",
+                "Return: token keyword, Expr value",
                 "If: Expr condition, Stmt thenBranch," + " Stmt elseBranch",
                 "Print: Expr expression",
                 "Var: token name, Expr initializer",
