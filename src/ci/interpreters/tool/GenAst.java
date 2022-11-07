@@ -16,14 +16,18 @@ public class GenAst {
                 "Assign: token name, Expr value",
                 "Binary: Expr Left, token operator, Expr right",
                 "Call: Expr callee, token paren, List<Expr> arguments",
+                "Set      : Expr object, token name, Expr value",
+                "Get      : Expr object, token name",
                 "Grouping: Expr expression",
                 "Literal: Object value",
                 "Logical  : Expr left, token operator, Expr right",
+                "This     : token keyword",
                 "Unary: token operator, Expr right",
                 "Variable: token name"));
         defineAst(outputDir, "Stmt", Arrays.asList(
                 "Block: List<Stmt> statements",
                 "Expression: Expr expression",
+                "Class: token name, List<Stmt.Function> methods",
                 "Function: token name, List<token> params," +
                         " List<Stmt> body",
                 "Return: token keyword, Expr value",

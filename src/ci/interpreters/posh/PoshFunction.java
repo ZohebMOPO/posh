@@ -3,12 +3,20 @@ package ci.interpreters.posh;
 import java.util.List;
 
 public class PoshFunction implements PoshCallable {
+    private final boolean isInitializer;
     private final Stmt.Function declaration;
     private final Environment closure;
 
-    PoshFunction(Stmt.Function declaration, Environment closure) {
+    PoshFunction(Stmt.Function declaration, Environment closure, boolean isInitializer) {
+        this.isInitializer = isInitializer;
         this.closure = closure;
         this.declaration = declaration;
+    }
+
+    PoshFunction bind(PoshInstance instance) {
+        Environment environment = new Environment(closure);
+        environment.define("this", instance);
+        return new PoshFunction(declaration, environment, isInitializer);
     }
 
     @Override
@@ -30,8 +38,13 @@ public class PoshFunction implements PoshCallable {
         try {
             interpreter.executeBlock(declaration.body, environment);
         } catch (Return returnValue) {
+            if (isInitializer)
+                return closure.getAt(0, "this");
             return returnValue.value;
         }
+
+        if (isInitializer)
+            return closure.getAt(0, "this");
 
         return null;
     }
