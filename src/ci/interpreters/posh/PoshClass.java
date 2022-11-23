@@ -6,8 +6,10 @@ import java.util.Map;
 public class PoshClass implements PoshCallable {
     private final Map<String, PoshFunction> methods;
     final String name;
+    final PoshClass superclass;
 
-    PoshClass(String name, Map<String, PoshFunction> methods) {
+    PoshClass(String name, PoshClass superclass, Map<String, PoshFunction> methods) {
+        this.superclass = superclass;
         this.name = name;
         this.methods = methods;
     }
@@ -15,6 +17,10 @@ public class PoshClass implements PoshCallable {
     PoshFunction findMethod(String name) {
         if (methods.containsKey(name)) {
             return methods.get(name);
+        }
+
+        if (superclass != null) {
+            return superclass.findMethod(name);
         }
 
         return null;

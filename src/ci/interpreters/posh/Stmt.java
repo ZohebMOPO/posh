@@ -38,7 +38,8 @@ abstract class Stmt {  interface Visitor<R> {
     final Expr expression;
   }
   static class Class extends Stmt {
-    Class(token name, List<Stmt.Function> methods) {      this.name = name;
+    Class(token name, Expr.Variable superclass, List<Stmt.Function> methods) {      this.name = name;
+      this.superclass = superclass;
       this.methods = methods;
     }
 
@@ -48,6 +49,7 @@ abstract class Stmt {  interface Visitor<R> {
     }
 
     final token name;
+    final Expr.Variable superclass;
     final List<Stmt.Function> methods;
   }
   static class Function extends Stmt {

@@ -9,6 +9,7 @@ abstract class Expr {  interface Visitor<R> {
     R visitSetExpr(Set expr);
     R visitGetExpr(Get expr);
     R visitGroupingExpr(Grouping expr);
+    R visitSuperExpr(Super expr);
     R visitLiteralExpr(Literal expr);
     R visitLogicalExpr(Logical expr);
     R visitThisExpr(This expr);
@@ -98,6 +99,19 @@ abstract class Expr {  interface Visitor<R> {
     }
 
     final Expr expression;
+  }
+  static class Super extends Expr {
+    Super(token keyword, token method) {      this.keyword = keyword;
+      this.method = method;
+    }
+
+    @Override
+    <R> R accept(Visitor<R> visitor) {
+      return visitor.visitSuperExpr(this);
+    }
+
+    final token keyword;
+    final token method;
   }
   static class Literal extends Expr {
     Literal(Object value) {      this.value = value;

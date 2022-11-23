@@ -12,9 +12,6 @@ public class PoshInstance {
     }
 
     Object get(token name) {
-        if (method != null)
-            return method.bind(this);
-
         if (fields.containsKey(name.lexeme)) {
             return fields.get(name.lexeme);
         }

@@ -214,9 +214,19 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitClassStmt(Stmt.Class stmt) {
+        Object superclass = null;
+        if (stmt.superclass != null) {
+            superclass = evaluate(stmt.superclass);
+            if (!(superclass instanceof PoshClass)) {
+                throw new RuntimeError(stmt.superclass.name,
+                        "Superclass must be a class.");
+            }
+        }
         environment.define(stmt.name.lexeme, null);
-        PoshClass klass = new PoshClass(stmt.name.lexeme, null);
-        environment.assign(stmt.name, klass);
+        if (stmt.superclass != null) {
+            environment = new Environment(environment);
+            environment.define("super", superclass);
+        }
         Map<String, PoshFunction> methods = new HashMap<>();
         for (Stmt.Function method : stmt.methods) {
             PoshFunction function = new PoshFunction(method, environment,
@@ -225,7 +235,11 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             methods.put(method.name.lexeme, function);
         }
 
-        PoshClass klass = new PoshClass(stmt.name.lexeme, methods);
+        PoshClass klass = new PoshClass(stmt.name.lexeme, (PoshClass) superclass, methods);
+        if (superclass != null) {
+            environment = environment.enclosing;
+        }
+        environment.assign(stmt.name, klass);
         return null;
     }
 
@@ -291,6 +305,21 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         environment.define(stmt.name.lexeme, value);
         return null;
+    }
+
+    @Override
+    public Object visitSuperExpr(Expr.Super expr) {
+        int distance = locals.get(expr);
+        PoshClass superclass = (PoshClass) environment.getAt(
+                distance, "super");
+        PoshInstance object = (PoshInstance) environment.getAt(
+                distance - 1, "this");
+        PoshFunction method = superclass.findMethod(expr.method.lexeme);
+        if (method == null) {
+            throw new RuntimeError(expr.method,
+                    "Undefined property '" + expr.method.lexeme + "'.");
+        }
+        return method.bind(object);
     }
 
     @Override
